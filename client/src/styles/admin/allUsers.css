@@ -1,0 +1,72 @@
+/* === All Users Page === */
+.all-users-page {
+    padding: 4vh 2vw;
+}
+
+/* === Heading === */
+.all-users-page h3 {
+    font-size: 1.8rem;
+    color: #004d80;
+    font-weight: bold;
+    margin-bottom: 2vh;
+}
+
+/* === Users List === */
+.all-users {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+/* === Single User Card === */
+.user {
+    display: flex;
+    width: 70%;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid rgba(238, 69, 14, 0.4);
+    padding: 2vh 1.5vw;
+    border-radius: 1rem;
+    background: rgba(255, 255, 255, 0.25);
+    backdrop-filter: blur(8px);
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.12);
+    transition: transform 0.2s ease, background-color 0.3s ease;
+}
+
+.user:hover {
+    background-color: rgba(238, 69, 14, 0.07);
+    transform: translateY(-4px);
+}
+
+/* === Text === */
+.user span {
+    display: flex;
+    flex-direction: column;
+}
+
+.user span b {
+    font-size: 1rem;
+    font-weight: 600;
+    color: rgb(22, 129, 129);
+}
+
+.user span p {
+    margin: 0;
+    color: rgba(22, 95, 129, 0.8);
+    font-size: 0.9rem;
+}
+
+/* === Responsive === */
+@media (max-width: 1024px) {
+    .user {
+        width: 100%;
+    }
+}
+
+@media (max-width: 600px) {
+    .user {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+}

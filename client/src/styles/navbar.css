@@ -1,0 +1,107 @@
+/* === Navbar === */
+.navbar {
+    display: flex;
+    gap : 20px;
+    align-items: center;
+    justify-content: space-between;
+    height: 10vh;
+    padding: 0 4vw;
+    border-radius: 0 0 1rem 1rem;
+    background: rgba(255, 255, 255, 0.25);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+    position: sticky;
+    top: 0;
+    z-index: 999;
+}
+
+/* === Logo === */
+.navbar h3 {
+    color: #ee4950;
+    margin: 0;
+    font-size: 2rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: color 0.3s ease;
+    font-family: 'Kaushan Script', cursive;
+}
+
+.navbar h3:hover {
+    color: #c72e32;
+}
+
+/* === Navigation Links === */
+.nav-options {
+    display: flex;
+    width: 35%;
+    gap: 20px;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.nav-options p {
+    margin: 0;
+    color: rgba(20, 20, 20, 0.7);
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+/* === Hover underline === */
+.nav-options p::after {
+    content: "";
+    position: absolute;
+    width: 0%;
+    height: 2px;
+    background-color: #ee4950;
+    bottom: -5px;
+    left: 0;
+    transition: width 0.3s;
+}
+
+.nav-options p:hover::after {
+    width: 100%;
+}
+
+.nav-options p:hover {
+    color: #ee4950;
+    transform: translateY(-2px);
+}
+
+/* === Active Link === */
+.nav-options .active {
+    color: #ee4950;
+    font-weight: 600;
+}
+
+.nav-options .active::after {
+    width: 100%;
+}
+
+/* === Responsive === */
+@media (max-width: 1024px) {
+    .nav-options {
+        width: 50%;
+    }
+
+    .navbar h3 {
+        font-size: 1.7rem;
+    }
+
+    .nav-options p {
+        font-size: 0.95rem;
+    }
+}
+
+@media (max-width: 600px) {
+    .nav-options {
+        display: none;
+    }
+
+    .navbar {
+        justify-content: center;
+    }
+}

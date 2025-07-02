@@ -1,0 +1,154 @@
+/* === All Applications Page === */
+.all-applications-page {
+    padding: 2vh 2vw;
+}
+
+/* === Header === */
+.all-applications-page h3 {
+    font-size: 1.8rem;
+    color: #004d80;
+    font-weight: bold;
+    margin-bottom: 1.5vh;
+}
+
+/* === Applications List === */
+.all-applications-body {
+    box-shadow: rgba(60, 64, 67, 0.3) 0px 4px 12px;
+    height: 76vh;
+    border-radius: 1rem;
+    margin-top: 2vh;
+    padding: 2vh 2vw;
+    overflow-y: auto;
+    background-color: rgba(255, 255, 255, 0.9);
+}
+
+/* === Single Application === */
+.application {
+    padding: 2vh 2vw;
+    border-radius: 1rem;
+    background-color: rgba(255, 255, 255, 0.95);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.07);
+    margin-bottom: 2vh;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    cursor: pointer;
+}
+
+.application:hover {
+    background-color: rgba(0, 108, 197, 0.06);
+    transform: translateY(-3px);
+}
+
+/* === Content Layout === */
+.application-body {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+/* === Vertical Line === */
+.vertical-line {
+    width: 1px;
+    background-color: rgba(0, 0, 0, 0.1);
+    height: auto;
+}
+
+/* === Left/Right Panel === */
+.application-half {
+    width: 48%;
+}
+
+/* === Texts === */
+.application-half h4 {
+    font-size: 1.4rem;
+    color: #004d80;
+    margin-bottom: 10px;
+}
+
+.application-half p {
+    font-size: 0.9rem;
+    color: #333;
+}
+
+.application-half h5 {
+    font-size: 1rem;
+    color: #0a3a60;
+    margin-bottom: 5px;
+}
+
+.application-half h5 b {
+    color: #052840;
+}
+
+.application-half h6 {
+    font-size: 0.9rem;
+    color: #006cc5;
+}
+
+.application-half h6 b {
+    color: rgb(130, 131, 130);
+}
+
+/* === Skills === */
+.application-skills {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.application-skills p {
+    color: #ee4950;
+    border: 1px solid #ee4950;
+    background-color: rgba(238, 73, 80, 0.08);
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 0.7rem;
+    font-weight: 500;
+}
+
+/* === Status Tags === */
+.status-accepted {
+    color: green;
+    font-weight: bold;
+}
+
+.status-rejected {
+    color: red;
+    font-weight: bold;
+}
+
+.status-pending {
+    color: #f39c12;
+    font-weight: bold;
+}
+
+/* === Divider === */
+.application hr {
+    border: none;
+    border-top: 2px solid rgba(0, 0, 0, 0.1);
+    margin: 1vh 0;
+}
+
+/* === Scrollbar === */
+.all-applications-body::-webkit-scrollbar {
+    width: 6px;
+}
+
+.all-applications-body::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+}
+
+/* === Responsive === */
+@media (max-width: 1024px) {
+    .application-body {
+        flex-direction: column;
+    }
+
+    .application-half {
+        width: 100%;
+    }
+
+    .vertical-line {
+        display: none;
+    }
+}

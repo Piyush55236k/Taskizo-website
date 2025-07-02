@@ -1,0 +1,203 @@
+/* === Client Applications Page === */
+.client-applications-page {
+    padding: 2vh 2vw;
+}
+
+/* === Top Section (Heading + Select) === */
+.client-applications-page span {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2vh;
+}
+
+.client-applications-page span h3 {
+    font-size: 1.8rem;
+    color: #004d80;
+    font-weight: bold;
+}
+
+.client-applications-page span select {
+    width: 50%;
+    padding: 10px;
+    border-radius: 10px;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    background-color: rgba(255, 255, 255, 0.9);
+    outline: none;
+    transition: border-color 0.3s;
+}
+
+.client-applications-page span select:focus {
+    border-color: #006cc5;
+}
+
+/* === Applications Container === */
+.client-applications-body {
+    box-shadow: rgba(60, 64, 67, 0.3) 0px 4px 12px;
+    height: 76vh;
+    border-radius: 1rem;
+    margin-top: 2vh;
+    padding-top: 2vh;
+    overflow-y: auto;
+    background-color: #fff;
+}
+
+/* === Single Application === */
+.client-application {
+    padding: 2vh 2vw;
+    cursor: pointer;
+    border-radius: 1rem;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.client-application:hover {
+    background-color: rgba(0, 108, 197, 0.06);
+    transform: translateY(-3px);
+}
+
+/* === Application Content Layout === */
+.client-application-body {
+    display: flex;
+    justify-content: space-between;
+    gap: 2vw;
+}
+
+.client-application hr {
+    height: 2px;
+    background-color: rgba(84, 86, 86, 0.2);
+    width: 100%;
+    margin-bottom: 0;
+    border: none;
+}
+
+/* === Vertical Divider === */
+.vertical-line {
+    width: 1px;
+    background-color: rgba(110, 109, 109, 0.2);
+    height: auto;
+}
+
+/* === Half Section === */
+.client-application-half {
+    width: 48%;
+}
+
+.client-application-half h4 {
+    font-size: 1.3rem;
+    color: rgba(26, 83, 121, 0.8);
+}
+
+.client-application-half p {
+    font-size: 0.9rem;
+    color: #333;
+}
+
+.client-application-half span {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.client-application-half span h5 {
+    font-size: 1.1rem;
+    color: rgba(9, 55, 86, 0.9);
+}
+
+.client-application-half span p {
+    font-size: 0.85rem;
+}
+
+/* === Skills Badges === */
+.client-application-half span .application-skills {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.client-application-half span .application-skills p {
+    color: #ee4950;
+    border: 1px solid #ee4950;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 0.7rem;
+    background-color: rgba(238, 73, 80, 0.08);
+}
+
+/* === Financial Info === */
+.client-application-half h6 {
+    font-size: 0.9rem;
+    color: #004d80;
+}
+
+.client-application-half h6 b {
+    color: rgb(130, 131, 130);
+}
+
+/* === Approve/Reject Buttons === */
+.approve-btns {
+    display: flex;
+    gap: 20px;
+    margin-top: 1vh;
+}
+
+.approve-btns button {
+    width: 10vw;
+    padding: 10px 0;
+    border-radius: 30px;
+    border: 2px solid #ee450e;
+    background-color: transparent;
+    color: #ee450e;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s, transform 0.2s;
+}
+
+.approve-btns button:hover {
+    background-color: #ee450e;
+    color: white;
+    transform: translateY(-2px);
+}
+
+/* === Scrollbar Styling === */
+.client-applications-body::-webkit-scrollbar {
+    width: 6px;
+}
+.client-applications-body::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+}
+
+/* === Responsive === */
+@media (max-width: 1024px) {
+    .client-application-body {
+        flex-direction: column;
+        gap: 2vh;
+    }
+
+    .vertical-line {
+        display: none;
+    }
+
+    .client-application-half {
+        width: 100%;
+    }
+
+    .client-applications-page span {
+        flex-direction: column;
+        gap: 10px;
+        align-items: flex-start;
+    }
+
+    .client-applications-page span select {
+        width: 100%;
+    }
+
+    .approve-btns {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .approve-btns button {
+        width: 100%;
+    }
+}

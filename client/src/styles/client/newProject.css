@@ -1,0 +1,111 @@
+/* === New Project Page === */
+.new-project-page {
+    margin: 5vh 3vw;
+    padding: 3vh 2vw;
+    border-radius: 1rem;
+    background: rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(12px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+}
+
+/* === Heading === */
+.new-project-page h3 {
+    font-size: 1.8rem;
+    color: #004d80;
+    margin-bottom: 4vh;
+}
+
+/* === Form === */
+.new-project-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* === Input Group === */
+.new-project-form span {
+    display: grid;
+    grid-template-columns: 31% 67%;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+}
+
+.new-project-form span p {
+    font-weight: 500;
+    color: #004d80;
+    margin: 0;
+}
+
+/* === Inputs === */
+.new-project-form input,
+.new-project-form textarea {
+    width: 100%;
+    padding: 10px 15px;
+    border-radius: 10px;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    background: rgba(255, 255, 255, 0.9);
+    outline: none;
+    transition: border-color 0.3s;
+    color: #333;
+    font-size: 0.95rem;
+}
+
+.new-project-form input:focus,
+.new-project-form textarea:focus {
+    border-color: #006cc5;
+}
+
+.new-project-form textarea {
+    min-height: 28vh;
+    resize: vertical;
+}
+
+/* === Submit Button === */
+.new-project-form button {
+    width: 100%;
+    height: 8vh;
+    border-radius: 30px;
+    border: 2px solid #ee450e;
+    background-color: transparent;
+    color: #ee450e;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s;
+}
+
+.new-project-form button:hover {
+    background-color: #ee450e;
+    color: white;
+    transform: translateY(-3px);
+}
+
+/* === Scrollbar Styling === */
+.new-project-page::-webkit-scrollbar {
+    width: 6px;
+}
+.new-project-page::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+}
+
+/* === Responsive === */
+@media (max-width: 1024px) {
+    .new-project-form span {
+        grid-template-columns: 100%;
+    }
+}
+
+@media (max-width: 600px) {
+    .new-project-page {
+        margin: 5vh 4vw;
+    }
+
+    .new-project-form span {
+        grid-template-columns: 100%;
+    }
+
+    .new-project-form button {
+        height: 7vh;
+    }
+}

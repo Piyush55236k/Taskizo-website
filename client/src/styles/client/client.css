@@ -1,0 +1,190 @@
+/* === Client Projects Page === */
+.client-projects-page {
+    display: flex;
+    justify-content: space-evenly;
+    gap: 2vw;
+    margin-top: 5vh;
+    background-color: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(6px);
+    padding: 2vh 1vw;
+}
+
+/* === Header === */
+.client-projects-header {
+    display: flex;
+    height: 8vh;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2vh;
+}
+
+.client-projects-header select {
+    width: 25vw;
+    padding: 10px;
+    border-radius: 10px;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    outline: none;
+    background-color: rgba(255, 255, 255, 0.8);
+    transition: border-color 0.3s;
+}
+
+.client-projects-header select:focus {
+    border-color: #006cc5;
+}
+
+/* === Projects List === */
+.client-projects-list {
+    width: 95%;
+    height: 82vh;
+    overflow-y: auto;
+    box-shadow: rgba(0, 0, 0, 0.15) 0px 4px 12px;
+    border-radius: 1rem;
+    padding: 3vh 2vw;
+    background-color: #fff;
+    display: flex;
+    flex-direction: column;
+}
+
+.client-projects-list h3 {
+    font-size: 1.8rem;
+    color: #004d80;
+    margin-bottom: 1rem;
+}
+
+.client-projects-list hr {
+    border: none;
+    border-top: 2px solid rgba(0, 0, 0, 0.1);
+    margin: 1vh 0;
+}
+
+/* === Individual Project Card === */
+.listed-project {
+    padding: 2vh 2vw;
+    border-radius: 1rem;
+    background-color: rgba(255, 255, 255, 0.95);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.07);
+    transition: transform 0.2s ease, background-color 0.2s;
+    margin-bottom: 2vh;
+    cursor: pointer;
+}
+
+.listed-project:hover {
+    background-color: rgba(0, 108, 197, 0.06);
+    transform: translateY(-3px);
+}
+
+/* === Project Header === */
+.listed-project-head {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1vh;
+}
+
+.listed-project-head h3 {
+    width: 80%;
+    margin: 0;
+    font-size: 1.5rem;
+    color: #227396;
+}
+
+.listed-project-head p {
+    margin: 0;
+    font-size: 0.85rem;
+    color: rgba(0, 0, 0, 0.6);
+}
+
+/* === Project Details === */
+.listed-project h5,
+.listed-project p {
+    font-size: 0.9rem;
+    color: #333;
+    margin-bottom: 0.5rem;
+}
+
+/* === Skills Tags === */
+.listed-project .skills {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 0.5rem;
+}
+
+.listed-project .skills h6 {
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: #ee4950;
+    border: 1px solid #ee4950;
+    padding: 5px 12px;
+    border-radius: 20px;
+    background-color: rgba(238, 73, 80, 0.08);
+}
+
+/* === Bids Info === */
+.listed-project .bids-data {
+    display: flex;
+    gap: 30px;
+    margin-top: 2vh;
+}
+
+.listed-project .bids-data p,
+.listed-project .bids-data h6 {
+    font-size: 0.85rem;
+    color: #004d80;
+}
+
+/* === Scrollbar Styling === */
+.client-projects-list::-webkit-scrollbar {
+    width: 6px;
+}
+.client-projects-list::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+}
+
+/* === Responsive === */
+@media (max-width: 1024px) {
+    .client-projects-page {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .client-projects-list {
+        width: 90%;
+        height: auto;
+    }
+
+    .client-projects-header select {
+        width: 60%;
+    }
+}
+
+@media (max-width: 600px) {
+    .listed-project-head {
+        flex-direction: column;
+        gap: 4px;
+    }
+
+    .listed-project-head h3 {
+        font-size: 1.2rem;
+    }
+
+    .listed-project {
+        padding: 1.5vh 4vw;
+    }
+
+    .bids-data {
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .client-projects-header {
+        flex-direction: column;
+        gap: 10px;
+        height: auto;
+        align-items: flex-start;
+    }
+
+    .client-projects-header select {
+        width: 100%;
+    }
+}

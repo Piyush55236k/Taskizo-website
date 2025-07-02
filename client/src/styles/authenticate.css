@@ -1,0 +1,197 @@
+/* ==== Root Page ==== */
+.authenticate-page {
+    width: 100%;
+    min-height: 100vh;
+    background: url('../images/landing-bg.jpg') no-repeat center center/cover;
+    backdrop-filter: blur(6px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* ==== Navbar ==== */
+.auth-navbar {
+    height: 10vh;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 3vw;
+    box-shadow: rgba(149, 157, 165, 0.3) 0px 8px 24px;
+    position: fixed;
+    top: 0;
+    z-index: 999;
+    background-color: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(10px);
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+}
+
+.auth-navbar h3 {
+    font-family: 'Kaushan Script', cursive;
+    margin: 0;
+    color: rgba(239, 154, 117, 0.916);
+    cursor: pointer;
+}
+
+.auth-navbar p {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    margin-left: 2vw;
+    color: rgba(79, 79, 79, 0.916);
+    font-weight: 600;
+    cursor: pointer;
+}
+
+/* ==== Toggle Buttons ==== */
+.auth-toggle {
+    margin-top: 13vh;
+    display: flex;
+    gap: 20px;
+}
+
+.auth-toggle button {
+    padding: 10px 30px;
+    border: 2px solid rgba(255, 255, 255, 0.6);
+    border-radius: 30px;
+    background-color: rgba(54, 52, 52, 0.2);
+    color: #ffffff;
+    cursor: pointer;
+    font-weight: 600;
+    backdrop-filter: blur(8px);
+    transition: background-color 0.3s ease, transform 0.2s ease, border 0.3s;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+}
+
+.auth-toggle button:hover {
+    background-color: rgba(62, 60, 60, 0.4);
+    transform: translateY(-2px);
+    border: 2px solid rgba(255, 255, 255, 0.8);
+}
+
+.auth-toggle .active {
+    background-color: rgb(0, 108, 197);
+    color: #fff;
+    border: 2px solid rgb(0, 108, 197);
+    box-shadow: 0 6px 24px rgba(0, 108, 197, 0.4);
+}
+
+/* ==== Form Container ==== */
+.auth-container {
+    margin-top: 2vh;
+    width: 34%;
+    background-color: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(12px);
+    padding: 30px;
+    border-radius: 1rem;
+    box-shadow: rgba(14, 30, 37, 0.3) 0px 2px 16px;
+}
+
+/* ==== Form Styling ==== */
+.authForm {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    font-family: 'Work Sans', sans-serif;
+}
+
+.authForm h2 {
+    margin-bottom: 20px;
+    font-family: 'Poppins', sans-serif;
+    color: rgb(0, 79, 135);
+    font-size: 1.8rem;
+}
+
+.authFormInputs {
+    width: 100%;
+    margin-bottom: 15px;
+}
+
+.authFormInputs label {
+    color: rgb(0, 61, 101);
+    display: block;
+    margin-bottom: 5px;
+    text-align: left;
+}
+
+.authFormInputs input,
+.authForm select {
+    width: 100%;
+    padding: 12px 15px;
+    border-radius: 8px;
+    border: 1px solid rgba(157, 193, 217, 0.46);
+    background-color: rgba(255, 255, 255, 0.5);
+    color: rgb(0, 61, 101);
+    outline: none;
+}
+
+.authForm button {
+    background-color: rgb(0, 108, 197);
+    color: white;
+    padding: 12px;
+    border: none;
+    border-radius: 30px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.authForm button:hover {
+    background-color: rgb(0, 79, 135);
+    transform: translateY(-2px);
+}
+
+.authForm p {
+    margin-top: 5%;
+    color: black;
+}
+
+.authForm p span {
+    color: rgb(0, 68, 107);
+    cursor: pointer;
+    font-weight: 600;
+}
+
+/* ==== RESPONSIVE ==== */
+@media (max-width: 1024px) {
+    .auth-container {
+        width: 60%;
+    }
+
+    .auth-toggle {
+        gap: 15px;
+    }
+}
+
+@media (max-width: 768px) {
+    .auth-navbar {
+        flex-direction: column;
+        height: auto;
+        padding: 10px 20px;
+    }
+
+    .auth-navbar h3 {
+        font-size: 1.5rem;
+    }
+
+    .auth-navbar p {
+        font-size: 1rem;
+        margin-left: 0;
+    }
+
+    .auth-toggle {
+        flex-direction: column;
+        gap: 10px;
+        width: 100%;
+        align-items: center;
+    }
+
+    .auth-toggle button {
+        width: 70%;
+    }
+
+    .auth-container {
+        width: 90%;
+        padding: 25px;
+    }
+}

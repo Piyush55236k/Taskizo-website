@@ -1,0 +1,194 @@
+/* === Freelancer Home Page === */
+.freelancer-home {
+    padding: 2vh 2vw;
+}
+
+/* === Top Data Section === */
+.freelancer-data-top {
+    position: relative;
+    left: 75vw;
+    width: fit-content;
+    margin: 20px;
+}
+
+.freelancer-data-top span {
+    display: flex;
+    gap: 10px;
+    width: fit-content;
+}
+
+.freelancer-data-top span b {
+    font-weight: 600;
+    color: #004d80;
+}
+
+.freelancer-data-top span p {
+    margin: 0;
+    color: rgba(50, 50, 50, 0.8);
+}
+
+/* === Home Cards === */
+.home-cards {
+    display: flex;
+    justify-content: space-evenly;
+    gap: 2vw;
+    margin-top: 5vh;
+    flex-wrap: wrap;
+}
+
+.home-card {
+    width: 18%;
+    min-width: 200px;
+    padding: 3vh;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.25);
+    backdrop-filter: blur(10px);
+    border-radius: 1rem;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, background-color 0.3s;
+}
+
+.home-card:hover {
+    transform: translateY(-5px);
+    background-color: rgba(238, 73, 80, 0.08);
+}
+
+.home-card h4 {
+    font-size: 1.2rem;
+    color: #2b2a2a;
+    font-weight: 500;
+}
+
+.home-card p {
+    color: #636363;
+    margin: 10px 0;
+}
+
+/* === Home Card Button === */
+.home-card button {
+    background-color: transparent;
+    color: #ee4950;
+    border: 1.5px solid #ee4950;
+    font-size: 0.95rem;
+    padding: 8px 20px;
+    width: 85%;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s;
+}
+
+.home-card button:hover {
+    background-color: #ee4950;
+    color: #fff;
+    transform: translateY(-2px);
+}
+
+/* === Freelancer Details Section === */
+.freelancer-details {
+    margin-top: 5vh;
+    width: 60%;
+    min-height: 35vh;
+    margin-left: 5vw;
+    padding: 3vh 2vw;
+    background: rgba(255, 255, 255, 0.25);
+    backdrop-filter: blur(10px);
+    border-radius: 1rem;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+/* === Freelancer Data === */
+.freelancer-details-data span {
+    display: flex;
+    flex-direction: column;
+}
+
+.freelancer-details-data span h4 {
+    margin-top: 2vh;
+    font-size: 1.2rem;
+    color: #004d80;
+}
+
+.freelancer-details-data span p {
+    font-size: 0.9rem;
+    color: #333;
+}
+
+/* === Skills Tags === */
+.freelancer-details-data .skills {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.freelancer-details-data .skill {
+    font-weight: 500;
+    font-size: 0.8rem;
+    border: 1px solid #ee4950;
+    color: #ee4950;
+    padding: 7px 12px;
+    border-radius: 20px;
+    background-color: rgba(238, 73, 80, 0.08);
+}
+
+/* === Update Section === */
+.freelancer-details-update h4 {
+    margin-top: 2vh;
+    font-size: 1.2rem;
+    color: #004d80;
+}
+
+/* === Inputs === */
+.freelancer-details-update input,
+.freelancer-details-update textarea {
+    width: 100%;
+    padding: 10px 15px;
+    border-radius: 10px;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    background: rgba(255, 255, 255, 0.95);
+    outline: none;
+    transition: border-color 0.3s;
+}
+
+.freelancer-details-update input:focus,
+.freelancer-details-update textarea:focus {
+    border-color: #006cc5;
+}
+
+.freelancer-details-update textarea {
+    min-height: 16vh;
+    resize: vertical;
+}
+
+/* === Scrollbar Styling === */
+.freelancer-details::-webkit-scrollbar {
+    width: 6px;
+}
+.freelancer-details::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+}
+
+/* === Responsive === */
+@media (max-width: 1024px) {
+    .home-cards {
+        flex-wrap: wrap;
+    }
+
+    .freelancer-details {
+        width: 90%;
+        margin-left: 0;
+    }
+}
+
+@media (max-width: 600px) {
+    .home-card {
+        width: 100%;
+    }
+
+    .freelancer-details-data span h4 {
+        font-size: 1rem;
+    }
+}
