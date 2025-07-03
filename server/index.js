@@ -103,7 +103,7 @@ mongoose.connect(process.env.MONGO_URI, {
     res.status(500).json({ error: err.message });
   }
 });
-TEMP ROUTE — convert string userIds to ObjectIds in freelancers
+// TEMP ROUTE — convert string userIds to ObjectIds in freelancers
 app.get('/fix-userids', async (req, res) => {
   try {
     const freelancers = await Freelancer.find();
