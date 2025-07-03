@@ -80,19 +80,30 @@ mongoose.connect(process.env.MONGO_URI, {
     });
 
     app.post('/login', async (req, res) => {
-      try {
-        const { email, password } = req.body;
-        const user = await User.findOne({ email: email });
-        if (!user) return res.status(400).json({ msg: "User does not exist" });
+  try {
+    const { email, password } = req.body;
+    const user = await User.findOne({ email: email });
+    if (!user) return res.status(400).json({ msg: "User does not exist" });
 
-        const isMatch = await bcrypt.compare(password, user.password);
-        if (!isMatch) return res.status(400).json({ msg: "Invalid credentials" });
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) return res.status(400).json({ msg: "Invalid credentials" });
 
-        res.status(200).json(user);
-      } catch (err) {
-        res.status(500).json({ error: err.message });
+    // ✅ Auto-create freelancer profile if missing
+    if (user.usertype === 'freelancer') {
+      const existing = await Freelancer.findOne({ userId: user._id });
+      if (!existing) {
+        const newFreelancer = new Freelancer({ userId: user._id });
+        await newFreelancer.save();
+        console.log(`✅ Auto-created freelancer profile for ${email}`);
       }
-    });
+    }
+
+    res.status(200).json(user);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
 
     // ======================== FREELANCER ========================
     app.get('/fetch-freelancer/:id', async (req, res) => {
