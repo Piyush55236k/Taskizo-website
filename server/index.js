@@ -121,6 +121,7 @@ app.get('/fetch-freelancer/:id', async (req, res) => {
 });
 
 
+
    app.post('/update-freelancer', async (req, res) => {
   const { freelancerId, updateSkills, description } = req.body;
 
