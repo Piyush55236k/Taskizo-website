@@ -8,7 +8,7 @@ const SocketHandler = (socket) => {
       const project = await Project.findById(projectId);
       if (project?.freelancerId?.toString() === freelancerId) {
         socket.join(projectId);
-        console.log(`👨‍💻 Freelancer joined room: ${projectId}`);
+        
         socket.broadcast.to(projectId).emit("user-joined-room");
 
         let chats = await Chat.findById(projectId);
@@ -33,7 +33,7 @@ const SocketHandler = (socket) => {
       const project = await Project.findById(projectId);
       if (["Assigned", "Completed"].includes(project?.status)) {
         socket.join(projectId);
-        console.log(`👨‍💼 Client joined room: ${projectId}`);
+        
         socket.broadcast.to(projectId).emit("user-joined-room");
 
         let chats = await Chat.findById(projectId);
@@ -56,7 +56,7 @@ const SocketHandler = (socket) => {
   socket.on("update-messages", async ({ projectId }) => {
     try {
       const chat = await Chat.findById(projectId);
-      console.log("🔁 Updating messages for:", projectId);
+      
       socket.emit("messages-updated", { chat });
     } catch (error) {
       console.error("❌ Error updating messages:", error.message);
@@ -82,7 +82,7 @@ const SocketHandler = (socket) => {
       );
 
       const chat = await Chat.findById(projectId);
-      console.log("📨 New message added to:", projectId);
+      
 
       socket.emit("messages-updated", { chat });
       socket.broadcast.to(projectId).emit("message-from-user");

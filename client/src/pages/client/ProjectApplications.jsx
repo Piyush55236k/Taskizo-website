@@ -21,7 +21,7 @@ const ProjectApplications = () => {
 
       }
     ).catch((err)=>{
-      console.log(err);
+      
     })
   }
 

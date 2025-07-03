@@ -26,7 +26,7 @@ const Admin = () => {
             setCompletedProsCount(comPros.length);
         }
       ).catch((err)=>{
-        console.log(err);
+        
       })
   }
 
@@ -36,7 +36,7 @@ const Admin = () => {
           setApplicationsCount(response.data.length);
       }
     ).catch((err)=>{
-      console.log(err);
+      
     })
 }
 
@@ -46,7 +46,7 @@ const fetchUsers = async() =>{
         setUsersCount(response.data.length);
     }
   ).catch((err)=>{
-    console.log(err);
+    
   })
 }
 

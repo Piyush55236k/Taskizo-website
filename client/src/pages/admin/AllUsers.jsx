@@ -13,7 +13,7 @@ const AllUsers = () => {
           setUsers(response.data);
       }
     ).catch((err)=>{
-      console.log(err);
+      
     })
   }
 

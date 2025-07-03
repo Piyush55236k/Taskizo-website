@@ -18,7 +18,7 @@ const Freelancer = () => {
 
   useEffect(() => {
     const id = localStorage.getItem('userId');
-    console.log("📦 userId from localStorage:", id);
+    
     if (id) {
       fetchUserData(id);
       fetchApplications(id);

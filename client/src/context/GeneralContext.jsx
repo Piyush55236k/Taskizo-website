@@ -20,10 +20,10 @@ const GeneralContextProvider = ({ children }) => {
 
   // ✅ Socket lifecycle logging
   useEffect(() => {
-    console.log("📦 Connecting to WebSocket at:", WS);
+    
 
     socket.on('connect', () => {
-      console.log('✅ WebSocket connected:', socket.id);
+      
     });
 
     socket.on('connect_error', (err) => {

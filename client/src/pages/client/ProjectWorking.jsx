@@ -11,7 +11,7 @@ const ProjectWorking = () => {
 
   const params = useParams();
 
-  console.log(params['id']);
+  
 
   const [project, setProject] = useState();
   const [clientId, setClientId] = useState(localStorage.getItem('userId'));
@@ -34,7 +34,7 @@ const ProjectWorking = () => {
 
   // useEffect(()=>{
   //   socket.on("user-joined-room", ()=>{
-  //     console.log("roo", socket.rooms)
+  //     
   //   })
   // },[socket])
 
@@ -48,10 +48,10 @@ const ProjectWorking = () => {
         setProject(response.data);
         setProjectId(response.data._id);
         setClientId(response.data.clientId);
-        console.log(response.data);
+        
       }
     ).catch((err)=>{
-      console.log(err);
+      
     })
   }
 
@@ -63,7 +63,7 @@ const ProjectWorking = () => {
         alert("Submission approved!!");
       }
     ).catch((err)=>{
-      console.log(err);
+      
     })
   }
 
@@ -74,7 +74,7 @@ const ProjectWorking = () => {
         alert("Submission rejected!!");
       }
     ).catch((err)=>{
-      console.log(err);
+      
     })
   }
 

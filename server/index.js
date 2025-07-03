@@ -34,7 +34,7 @@ const io = new Server(server, {
 });
 
 io.on("connection", (socket) => {
-  console.log("User connected");
+  
   SocketHandler(socket);
 });
 
@@ -46,7 +46,7 @@ mongoose.connect(process.env.MONGO_URI, {
   useUnifiedTopology: true
 })
   .then(() => {
-    console.log("MongoDB connected ✔️");
+    
 
     // ======================== AUTH ========================
     app.post('/register', async (req, res) => {
@@ -94,7 +94,7 @@ mongoose.connect(process.env.MONGO_URI, {
       if (!existing) {
         const newFreelancer = new Freelancer({ userId: user._id });
         await newFreelancer.save();
-        console.log(`✅ Auto-created freelancer profile for ${email}`);
+        
       }
     }
 
@@ -126,7 +126,7 @@ app.get('/fetch-freelancer/:id', async (req, res) => {
   const { freelancerId, updateSkills, description } = req.body;
 
   try {
-    console.log("🔧 [Update Request] Body:", req.body);
+    
 
     const freelancer = await Freelancer.findById(freelancerId);
 
@@ -144,7 +144,7 @@ app.get('/fetch-freelancer/:id', async (req, res) => {
 
     await freelancer.save();
 
-    console.log("✅ Freelancer updated:", freelancer);
+    
     res.status(200).json(freelancer);
 
   } catch (err) {
@@ -369,8 +369,8 @@ app.get('/fetch-freelancer/:id', async (req, res) => {
 
     // ======================== SERVER ========================
     server.listen(PORT, () => {
-      console.log(`Server running on port ${PORT}`);
+      
     });
 
   })
-  .catch((e) => console.log(`Error in DB connection ${e}`));
+  .catch((e) => );

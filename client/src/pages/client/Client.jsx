@@ -23,7 +23,7 @@ const Client = () => {
           setDisplayProjects(pros.reverse());
       }
     ).catch((err)=>{
-      console.log(err);
+      
       fetchProjects();
     })
   }

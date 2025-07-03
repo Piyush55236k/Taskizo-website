@@ -32,7 +32,7 @@ const AdminProjects = () => {
           })
       }
     ).catch((err)=>{
-      console.log(err);
+      
       fetchProjects();
     })
   }

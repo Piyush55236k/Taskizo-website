@@ -32,7 +32,7 @@ const AllProjects = () => {
           })
       }
     ).catch((err)=>{
-      console.log(err);
+      
       fetchProjects();
     })
   }

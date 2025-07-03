@@ -15,10 +15,10 @@ const MyApplications = () => {
     await axios.get(`${process.env.REACT_APP_API_URL}/fetch-applications`).then(
       (response)=>{
         setApplications(response.data.reverse());
-        console.log(response.data);
+        
       }
     ).catch((err)=>{
-      console.log(err);
+      
     })
   }
 

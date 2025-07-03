@@ -11,7 +11,7 @@ const ProjectData = () => {
 
   const params = useParams();
 
-  console.log(params['id']);
+  
 
   const [project, setProject] = useState()
 
@@ -42,10 +42,10 @@ const ProjectData = () => {
         setProject(response.data);
         setProjectId(response.data._id);
         setClientId(response.data.clientId);
-        console.log(response.data);
+        
       }
     ).catch((err)=>{
-      console.log(err);
+      
     })
   }
 
