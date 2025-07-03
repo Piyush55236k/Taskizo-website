@@ -120,6 +120,16 @@ app.get('/fix-userids', async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 });
+app.get('/test-freelancer/:id', async (req, res) => {
+  try {
+    const results = await Freelancer.find().lean();
+    const target = results.find(f => f.userId.toString() === req.params.id);
+    if (!target) return res.status(404).json({ msg: "Still not found" });
+    res.status(200).json(target);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
 
 
     // ======================== FREELANCER ========================
