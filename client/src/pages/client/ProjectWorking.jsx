@@ -57,7 +57,7 @@ const ProjectWorking = () => {
 
 
   const handleApproveSubmission = async() =>{
-    await axios.get(`http://localhost:6001/approve-submission/${params['id']}`).then(
+    await axios.get(`${process.env.REACT_APP_API_URL}/${params['id']}`).then(
       (response)=>{
         fetchProject(params['id']);
         alert("Submission approved!!");
@@ -68,7 +68,7 @@ const ProjectWorking = () => {
   }
 
   const handleRejectSubmission = async() =>{
-    await axios.get(`http://localhost:6001/reject-submission/${params['id']}`).then(
+    await axios.get(`${process.env.REACT_APP_API_URL}/${params['id']}`).then(
       (response)=>{
         fetchProject(params['id']);
         alert("Submission rejected!!");
@@ -96,7 +96,7 @@ const ProjectWorking = () => {
 
   const [chats, setChats] = useState();
   const fetchChats = async() =>{
-    await axios.get(`http://localhost:6001/fetch-chats/${params['id']}`).then(
+    await axios.get(`${process.env.REACT_APP_API_URL}/${params['id']}`).then(
       (response) =>{
         setChats(response.data);
       }
