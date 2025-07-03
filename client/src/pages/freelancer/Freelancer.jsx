@@ -41,14 +41,23 @@ const Freelancer = () => {
       )
   }
 
-  const updateUserData = async() =>{
-    axios.post(`${process.env.REACT_APP_API_URL}/update-freelancer`, {freelancerId, updateSkills: updateSkills, description: updateDescription}).then(
-        (response)=>{
-          fetchUserData();
-          alert("User data updated")
-        }
-      )
+const updateUserData = async () => {
+  try {
+    await axios.post(`${process.env.REACT_APP_API_URL}/update-freelancer`, {
+      freelancerId,
+      updateSkills: updateSkills,
+      description: updateDescription
+    });
+
+    await fetchUserData(freelancerId); // ✅ fixed
+    alert("User data updated");
+
+    // Close the update section
+    setIsDataUpdateOpen(false);
+  } catch (err) {
+    console.log(err);
   }
+};
 
 
   const [applicationsCount, setApplicationsCount] = useState([]);
