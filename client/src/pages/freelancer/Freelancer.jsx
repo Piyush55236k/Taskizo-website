@@ -21,21 +21,27 @@ const Freelancer = () => {
     fetchApplications();
   }, []);
 
-  const fetchUserData = async (id) => {
-    try {
-      const response = await axios.get(`${process.env.REACT_APP_API_URL}/fetch-freelancer/${id}`);
-      const data = response.data;
+ const fetchUserData = async (id) => {
+  try {
+    const response = await axios.get(`${process.env.REACT_APP_API_URL}/fetch-freelancer/${id}`);
+    const data = response.data;
 
-      setFreelancerData(data);
-      setFreelancerId(data._id);
-      setSkills(Array.isArray(data.skills) ? data.skills : []);
-      setDescription(data.description || '');
-      setUpdateSkills(data.skills.join(', ')); // Pre-fill input
-      setUpdateDescription(data.description || '');
-    } catch (err) {
-      console.error('Failed to fetch freelancer data:', err);
+    if (!data) {
+      console.warn("⚠️ No freelancer profile found for userId:", id);
+      return; // ⛔ Stop here — no data to work with
     }
-  };
+
+    setFreelancerData(data);
+    setFreelancerId(data._id);
+    setSkills(Array.isArray(data.skills) ? data.skills : []);
+    setDescription(data.description || '');
+    setUpdateSkills(data.skills.join(', '));
+    setUpdateDescription(data.description || '');
+  } catch (err) {
+    console.error('❌ Failed to fetch freelancer data:', err);
+  }
+};
+
 
   const updateUserData = async () => {
     try {
