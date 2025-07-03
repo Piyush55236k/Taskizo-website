@@ -123,14 +123,20 @@ mongoose.connect(process.env.MONGO_URI, {
 
 
     // ======================== FREELANCER ========================
-    app.get('/fetch-freelancer/:id', async (req, res) => {
-      try {
-        const freelancer = await Freelancer.findOne({ userId: req.params.id });
-        res.status(200).json(freelancer);
-      } catch (err) {
-        res.status(500).json({ error: err.message });
-      }
-    });
+ app.get('/fetch-freelancer/:id', async (req, res) => {
+  try {
+    const freelancer = await Freelancer.findOne({ userId: new mongoose.Types.ObjectId(req.params.id) });
+
+    if (!freelancer) {
+      console.warn("⚠️ No freelancer profile found for userId:", req.params.id);
+      return res.status(404).json({ msg: "Freelancer not found" });
+    }
+
+    res.status(200).json(freelancer);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
 
    app.post('/update-freelancer', async (req, res) => {
   const { freelancerId, updateSkills, description } = req.body;
