@@ -60,7 +60,7 @@ const ProjectData = () => {
 
     const handleBidding = async() =>{
 
-      await axios.post("http://localhost:6001/make-bid", {clientId, freelancerId, projectId, proposal, bidAmount, estimatedTime}).then(
+      await axios.post(`${process.env.REACT_APP_API_URL}/make-bid`, {clientId, freelancerId, projectId, proposal, bidAmount, estimatedTime}).then(
         (response)=>{
             setProposal('');
             setBidAmount(0);
@@ -81,7 +81,7 @@ const ProjectData = () => {
 
     const handleProjectSubmission = async() =>{
 
-      await axios.post("http://localhost:6001/submit-project", {clientId, freelancerId, projectId, projectLink, manualLink, submissionDescription}).then(
+      await axios.post(`${process.env.REACT_APP_API_URL}/submit-project`, {clientId, freelancerId, projectId, projectLink, manualLink, submissionDescription}).then(
         (response)=>{
             setProjectLink('');
             setManualLink('');
@@ -111,7 +111,7 @@ const ProjectData = () => {
 
     const [chats, setChats] = useState();
     const fetchChats = async() =>{
-      await axios.get(`http://localhost:6001/fetch-chats/${params['id']}`).then(
+      await axios.get(`${process.env.REACT_APP_API_URL}/fetch-chats/${params['id']}`).then(
         (response) =>{
           setChats(response.data);
         }
