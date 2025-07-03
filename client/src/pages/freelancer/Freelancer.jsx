@@ -12,40 +12,43 @@ const Freelancer = () => {
   const [updateSkills, setUpdateSkills] = useState('');
   const [updateDescription, setUpdateDescription] = useState('');
   const [applicationsCount, setApplicationsCount] = useState([]);
+  const [isUpdating, setIsUpdating] = useState(false);
 
   const navigate = useNavigate();
 
   useEffect(() => {
     const id = localStorage.getItem('userId');
-      console.log("📦 userId from localStorage:", id);
-    if (id) fetchUserData(id);
-    fetchApplications();
+    console.log("📦 userId from localStorage:", id);
+    if (id) {
+      fetchUserData(id);
+      fetchApplications(id);
+    }
   }, []);
 
- const fetchUserData = async (id) => {
-  try {
-    const response = await axios.get(`${process.env.REACT_APP_API_URL}/fetch-freelancer/${id}`);
-    const data = response.data;
+  const fetchUserData = async (id) => {
+    try {
+      const response = await axios.get(`${process.env.REACT_APP_API_URL}/fetch-freelancer/${id}`);
+      const data = response.data;
 
-    if (!data) {
-      console.warn("⚠️ No freelancer profile found for userId:", id);
-      return; // ⛔ Stop here — no data to work with
+      if (!data) {
+        console.warn("⚠️ No freelancer profile found for userId:", id);
+        return;
+      }
+
+      setFreelancerData(data);
+      setFreelancerId(data._id);
+      setSkills(Array.isArray(data.skills) ? data.skills : []);
+      setDescription(data.description || '');
+      setUpdateSkills(data.skills.join(', '));
+      setUpdateDescription(data.description || '');
+    } catch (err) {
+      console.error('❌ Failed to fetch freelancer data:', err);
     }
-
-    setFreelancerData(data);
-    setFreelancerId(data._id);
-    setSkills(Array.isArray(data.skills) ? data.skills : []);
-    setDescription(data.description || '');
-    setUpdateSkills(data.skills.join(', '));
-    setUpdateDescription(data.description || '');
-  } catch (err) {
-    console.error('❌ Failed to fetch freelancer data:', err);
-  }
-};
-
+  };
 
   const updateUserData = async () => {
     try {
+      setIsUpdating(true);
       const skillArray = updateSkills.split(',').map(s => s.trim()).filter(Boolean);
 
       await axios.post(`${process.env.REACT_APP_API_URL}/update-freelancer`, {
@@ -54,18 +57,21 @@ const Freelancer = () => {
         description: updateDescription
       });
 
-      await fetchUserData(freelancerId);
-      alert("User data updated");
+      await fetchUserData(localStorage.getItem('userId'));
+      alert("✅ Freelancer data updated successfully.");
       setIsDataUpdateOpen(false);
     } catch (err) {
-      console.error("Error updating user:", err);
+      console.error("❌ Error updating user:", err);
+      alert("Error updating data");
+    } finally {
+      setIsUpdating(false);
     }
   };
 
-  const fetchApplications = async () => {
+  const fetchApplications = async (userId) => {
     try {
       const response = await axios.get(`${process.env.REACT_APP_API_URL}/fetch-applications`);
-      const filtered = response.data.filter(app => app.freelancerId === localStorage.getItem('userId'));
+      const filtered = response.data.filter(app => app.freelancerId === userId);
       setApplicationsCount(filtered);
     } catch (err) {
       console.error("Error fetching applications:", err);
@@ -151,8 +157,12 @@ const Freelancer = () => {
                   ></textarea>
                 </span>
 
-                <button className="btn btn-outline-success mt-3" onClick={updateUserData}>
-                  Update
+                <button
+                  className="btn btn-outline-success mt-3"
+                  onClick={updateUserData}
+                  disabled={isUpdating}
+                >
+                  {isUpdating ? "Updating..." : "Update"}
                 </button>
               </div>
             )}
