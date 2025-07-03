@@ -133,9 +133,9 @@ app.get('/test-freelancer/:id', async (req, res) => {
 
 
     // ======================== FREELANCER ========================
- app.get('/fetch-freelancer/:id', async (req, res) => {
+app.get('/fetch-freelancer/:id', async (req, res) => {
   try {
-    const freelancer = await Freelancer.findOne({ userId: new mongoose.Types.ObjectId(req.params.id) });
+    const freelancer = await Freelancer.findOne({ userId: req.params.id });
 
     if (!freelancer) {
       console.warn("⚠️ No freelancer profile found for userId:", req.params.id);
@@ -147,6 +147,7 @@ app.get('/test-freelancer/:id', async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 });
+
 
    app.post('/update-freelancer', async (req, res) => {
   const { freelancerId, updateSkills, description } = req.body;
