@@ -34,7 +34,7 @@ const io = new Server(server, {
 });
 
 io.on("connection", (socket) => {
-  
+  console.log("User connected");
   SocketHandler(socket);
 });
 
@@ -46,7 +46,7 @@ mongoose.connect(process.env.MONGO_URI, {
   useUnifiedTopology: true
 })
   .then(() => {
-    
+    console.log("MongoDB connected ✔️");
 
     // ======================== AUTH ========================
     app.post('/register', async (req, res) => {
@@ -56,102 +56,74 @@ mongoose.connect(process.env.MONGO_URI, {
         const salt = await bcrypt.genSalt();
         const passwordHash = await bcrypt.hash(password, salt);
 
-        const newUser = new User({
-          username,
-          email,
-          password: passwordHash,
-          usertype
-        });
-
+        const newUser = new User({ username, email, password: passwordHash, usertype });
         const user = await newUser.save();
 
         if (usertype === 'freelancer') {
-          const newFreelancer = new Freelancer({
-            userId: user._id
-          });
+          const newFreelancer = new Freelancer({ userId: user._id });
           await newFreelancer.save();
         }
 
         res.status(200).json(user);
-
       } catch (err) {
         res.status(500).json({ error: err.message });
       }
     });
 
     app.post('/login', async (req, res) => {
-  try {
-    const { email, password } = req.body;
-    const user = await User.findOne({ email: email });
-    if (!user) return res.status(400).json({ msg: "User does not exist" });
+      try {
+        const { email, password } = req.body;
+        const user = await User.findOne({ email });
+        if (!user) return res.status(400).json({ msg: "User does not exist" });
 
-    const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch) return res.status(400).json({ msg: "Invalid credentials" });
+        const isMatch = await bcrypt.compare(password, user.password);
+        if (!isMatch) return res.status(400).json({ msg: "Invalid credentials" });
 
-    // ✅ Auto-create freelancer profile if missing
-    if (user.usertype === 'freelancer') {
-      const existing = await Freelancer.findOne({ userId: user._id });
-      if (!existing) {
-        const newFreelancer = new Freelancer({ userId: user._id });
-        await newFreelancer.save();
-        
+        if (user.usertype === 'freelancer') {
+          const existing = await Freelancer.findOne({ userId: user._id });
+          if (!existing) {
+            const newFreelancer = new Freelancer({ userId: user._id });
+            await newFreelancer.save();
+            console.log(`✅ Auto-created freelancer profile for ${email}`);
+          }
+        }
+
+        res.status(200).json(user);
+      } catch (err) {
+        res.status(500).json({ error: err.message });
       }
-    }
-
-    res.status(200).json(user);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-});
+    });
 
     // ======================== FREELANCER ========================
-app.get('/fetch-freelancer/:id', async (req, res) => {
-  try {
-    const freelancer = await Freelancer.findOne({ userId: new mongoose.Types.ObjectId(req.params.id) });
+    app.get('/fetch-freelancer/:id', async (req, res) => {
+      try {
+        const freelancer = await Freelancer.findOne({ userId: new mongoose.Types.ObjectId(req.params.id) });
+        if (!freelancer) return res.status(404).json({ msg: "Freelancer not found" });
+        res.status(200).json(freelancer);
+      } catch (err) {
+        res.status(500).json({ error: err.message });
+      }
+    });
 
-    if (!freelancer) {
-      console.warn("⚠️ No freelancer profile found for userId:", req.params.id);
-      return res.status(404).json({ msg: "Freelancer not found" });
-    }
+    app.post('/update-freelancer', async (req, res) => {
+      const { freelancerId, updateSkills, description } = req.body;
+      try {
+        const freelancer = await Freelancer.findById(freelancerId);
+        if (!freelancer) return res.status(404).json({ error: 'Freelancer not found' });
 
-    res.status(200).json(freelancer);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-});
+        const skillsArray = Array.isArray(updateSkills)
+          ? updateSkills
+          : updateSkills.split(',').map(skill => skill.trim());
 
+        freelancer.skills = skillsArray;
+        freelancer.description = description;
 
-
-   app.post('/update-freelancer', async (req, res) => {
-  const { freelancerId, updateSkills, description } = req.body;
-
-  try {
-    
-
-    const freelancer = await Freelancer.findById(freelancerId);
-
-    if (!freelancer) {
-      return res.status(404).json({ error: 'Freelancer not found' });
-    }
-
-    // Smart check: array or comma-separated string
-    const skillsArray = Array.isArray(updateSkills)
-      ? updateSkills
-      : updateSkills.split(',').map(skill => skill.trim());
-
-    freelancer.skills = skillsArray;
-    freelancer.description = description;
-
-    await freelancer.save();
-
-    
-    res.status(200).json(freelancer);
-
-  } catch (err) {
-    console.error("❌ Error in /update-freelancer:", err);
-    res.status(500).json({ error: 'Internal Server Error' });
-  }
-});
+        await freelancer.save();
+        res.status(200).json(freelancer);
+      } catch (err) {
+        res.status(500).json({ error: 'Internal Server Error' });
+      }
+    });
 
     // ======================== PROJECT ========================
     app.get('/fetch-project/:id', async (req, res) => {
@@ -177,13 +149,9 @@ app.get('/fetch-freelancer/:id', async (req, res) => {
       try {
         const projectSkills = skills.split(',').map(skill => skill.trim());
         const newProject = new Project({
-          title,
-          description,
-          budget,
+          title, description, budget,
           skills: projectSkills,
-          clientId,
-          clientName,
-          clientEmail,
+          clientId, clientName, clientEmail,
           postedDate: new Date()
         });
         await newProject.save();
@@ -203,8 +171,7 @@ app.get('/fetch-freelancer/:id', async (req, res) => {
         const client = await User.findById(clientId);
 
         const newApplication = new Application({
-          projectId,
-          clientId,
+          projectId, clientId,
           clientName: client.username,
           clientEmail: client.email,
           freelancerId,
@@ -221,13 +188,9 @@ app.get('/fetch-freelancer/:id', async (req, res) => {
         });
 
         const application = await newApplication.save();
-
         project.bids.push(freelancerId);
         project.bidAmounts.push(parseInt(bidAmount));
-
-        if (application) {
-          freelancerData.applications.push(application._id);
-        }
+        if (application) freelancerData.applications.push(application._id);
 
         await freelancerData.save();
         await project.save();
@@ -258,12 +221,11 @@ app.get('/fetch-freelancer/:id', async (req, res) => {
         application.status = 'Accepted';
         await application.save();
 
-        const remainingApplications = await Application.find({ projectId: application.projectId, status: "Pending" });
-
-        remainingApplications.forEach(async (appli) => {
+        const remaining = await Application.find({ projectId: application.projectId, status: "Pending" });
+        for (const appli of remaining) {
           appli.status = 'Rejected';
           await appli.save();
-        });
+        }
 
         project.freelancerId = freelancer.userId;
         project.freelancerName = user.email;
@@ -301,7 +263,6 @@ app.get('/fetch-freelancer/:id', async (req, res) => {
         project.manualLink = manualLink;
         project.submissionDescription = submissionDescription;
         project.submission = true;
-
         await project.save();
         res.status(200).json({ message: "Project submitted" });
       } catch (err) {
@@ -333,14 +294,11 @@ app.get('/fetch-freelancer/:id', async (req, res) => {
     app.get('/reject-submission/:id', async (req, res) => {
       try {
         const project = await Project.findById(req.params.id);
-
         project.submission = false;
         project.projectLink = "";
         project.manualLink = "";
         project.submissionDescription = "";
-
         await project.save();
-
         res.status(200).json({ message: "Submission rejected" });
       } catch (err) {
         res.status(500).json({ error: err.message });
@@ -369,8 +327,10 @@ app.get('/fetch-freelancer/:id', async (req, res) => {
 
     // ======================== SERVER ========================
     server.listen(PORT, () => {
-      
+      console.log(`Server running on port ${PORT}`);
     });
 
   })
-  .catch((e) => );
+  .catch((e) => {
+    console.error(`❌ Error in DB connection: ${e}`);
+  });
