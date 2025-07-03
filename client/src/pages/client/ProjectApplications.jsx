@@ -38,7 +38,7 @@ const ProjectApplications = () => {
   },[projectTitles])
 
   const handleApprove = async(id)=>{
-    await axios.get(`http://localhost:6001/approve-application/${id}`).then(
+    await axios.get(`${process.env.REACT_APP_API_URL}/approve-application/${id}`).then(
       (response)=>{
         alert("Application approved");
         fetchApplications();
@@ -49,7 +49,7 @@ const ProjectApplications = () => {
   }
 
   const handleReject = async(id)=>{
-    await axios.get(`http://localhost:6001/reject-application/${id}`).then(
+    await axios.get(`${process.env.REACT_APP_API_URL}/reject-application/${id}`).then(
       (response)=>{
         alert("Application rejected!!");
         fetchApplications();
