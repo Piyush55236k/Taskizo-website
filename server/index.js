@@ -103,23 +103,23 @@ mongoose.connect(process.env.MONGO_URI, {
     res.status(500).json({ error: err.message });
   }
 });
-// TEMP ROUTE — convert string userIds to ObjectIds in freelancers
-// app.get('/fix-userids', async (req, res) => {
-//   try {
-//     const freelancers = await Freelancer.find();
+TEMP ROUTE — convert string userIds to ObjectIds in freelancers
+app.get('/fix-userids', async (req, res) => {
+  try {
+    const freelancers = await Freelancer.find();
 
-//     for (const f of freelancers) {
-//       if (typeof f.userId === 'string') {
-//         f.userId = new mongoose.Types.ObjectId(f.userId);
-//         await f.save();
-//       }
-//     }
+    for (const f of freelancers) {
+      if (typeof f.userId === 'string') {
+        f.userId = new mongoose.Types.ObjectId(f.userId);
+        await f.save();
+      }
+    }
 
-//     res.status(200).json({ message: 'userIds converted to ObjectId' });
-//   } catch (err) {
-//     res.status(500).json({ error: err.message });
-//   }
-// });
+    res.status(200).json({ message: 'userIds converted to ObjectId' });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
 
 
     // ======================== FREELANCER ========================
