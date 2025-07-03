@@ -37,7 +37,7 @@ const ProjectData = () => {
 
 
   const fetchProject = async(id) =>{
-    await axios.get(`http://localhost:6001/fetch-project/${id}`).then(
+    await axios.get(`${process.env.REACT_APP_API_URL}/fetch-project/${id}`).then(
       (response)=>{
         setProject(response.data);
         setProjectId(response.data._id);

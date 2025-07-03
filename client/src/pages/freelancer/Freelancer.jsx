@@ -27,7 +27,7 @@ const Freelancer = () => {
   },[])
 
   const fetchUserData = async(id) =>{
-      axios.get(`http://localhost:6001/fetch-freelancer/${id}`).then(
+      axios.get(`${process.env.REACT_APP_API_URL}/fetch-freelancer/${id}`).then(
         (response)=>{
           setFreelancerData(response.data);
           if(response.data){

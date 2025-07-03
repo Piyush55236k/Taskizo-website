@@ -8,7 +8,7 @@ export const GeneralContext = createContext();
 
 // === Context Provider ===
 const GeneralContextProvider = ({ children }) => {
-  const WS = 'http://localhost:6001';
+  const WS = `${process.env.REACT_APP_API_URL}`;
   const navigate = useNavigate();
 
   const socket = io(WS, { transports: ['websocket'] });

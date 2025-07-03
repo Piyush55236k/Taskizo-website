@@ -18,7 +18,7 @@ const AllProjects = () => {
   },[])
 
   const fetchProjects = async()=>{
-    await axios.get('http://localhost:6001/fetch-projects').then(
+    await axios.get(`${process.env.REACT_APP_API_URL}/fetch-projects`).then(
       (response)=>{
           setProjects(response.data);
           setDisplayProjects(response.data.reverse());

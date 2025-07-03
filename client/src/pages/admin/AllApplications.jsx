@@ -11,7 +11,7 @@ const AllApplications = () => {
 
   const fetchApplications = async () => {
     try {
-      const response = await axios.get('http://localhost:6001/fetch-applications');
+      const response = await axios.get(`${process.env.REACT_APP_API_URL}/fetch-applications`);
       setApplications(response.data.reverse());
     } catch (err) {
       console.log(err);

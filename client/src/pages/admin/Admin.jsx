@@ -19,7 +19,7 @@ const Admin = () => {
   },[])
 
   const fetchProjects = async() =>{
-      await axios.get("http://localhost:6001/fetch-projects").then(
+      await axios.get(`${process.env.REACT_APP_API_URL}/fetch-projects`).then(
         (response)=>{
             setProjectsCount(response.data.length);
             const comPros = response.data.filter((pro)=> pro.status === "Completed");
