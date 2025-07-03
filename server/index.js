@@ -103,29 +103,22 @@ mongoose.connect(process.env.MONGO_URI, {
     res.status(500).json({ error: err.message });
   }
 });
-// TEMP ROUTE — convert string userIds to ObjectIds in freelancers
-app.get('/fix-userids', async (req, res) => {
+// TEMP: Migrate all freelancer.userId from string → ObjectId
+app.get('/migrate-userids', async (req, res) => {
   try {
     const freelancers = await Freelancer.find();
+
+    let updatedCount = 0;
 
     for (const f of freelancers) {
       if (typeof f.userId === 'string') {
         f.userId = new mongoose.Types.ObjectId(f.userId);
         await f.save();
+        updatedCount++;
       }
     }
 
-    res.status(200).json({ message: 'userIds converted to ObjectId' });
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-});
-app.get('/test-freelancer/:id', async (req, res) => {
-  try {
-    const results = await Freelancer.find().lean();
-    const target = results.find(f => f.userId.toString() === req.params.id);
-    if (!target) return res.status(404).json({ msg: "Still not found" });
-    res.status(200).json(target);
+    res.status(200).json({ message: `✅ Migrated ${updatedCount} userIds to ObjectId` });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
