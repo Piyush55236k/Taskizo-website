@@ -8,10 +8,36 @@ export const GeneralContext = createContext();
 
 // === Context Provider ===
 const GeneralContextProvider = ({ children }) => {
-  const WS = `${process.env.REACT_APP_API_URL}`;
+  const WS = process.env.REACT_APP_API_URL;
   const navigate = useNavigate();
 
-  const socket = io(WS, { transports: ['websocket'] });
+  // ✅ Initialize socket
+  const socket = io(WS, {
+    transports: ['websocket'],
+    withCredentials: true,
+    reconnectionAttempts: 5,
+  });
+
+  // ✅ Socket lifecycle logging
+  useEffect(() => {
+    console.log("📦 Connecting to WebSocket at:", WS);
+
+    socket.on('connect', () => {
+      console.log('✅ WebSocket connected:', socket.id);
+    });
+
+    socket.on('connect_error', (err) => {
+      console.error('❌ WebSocket connection error:', err.message);
+    });
+
+    socket.on('disconnect', (reason) => {
+      console.warn('⚠️ WebSocket disconnected:', reason);
+    });
+
+    return () => {
+      socket.disconnect();
+    };
+  }, [socket, WS]);
 
   // === User States ===
   const [username, setUsername] = useState('');
@@ -19,21 +45,13 @@ const GeneralContextProvider = ({ children }) => {
   const [password, setPassword] = useState('');
   const [usertype, setUsertype] = useState('');
 
-  // === Input Object ===
   const inputs = { username, email, password, usertype };
 
-  // === Login Function ===
   const login = async () => {
     try {
-      const response = await axios.post(`${WS}/login`, {
-        email,
-        password,
-      });
-
+      const response = await axios.post(`${WS}/login`, { email, password });
       const data = response.data;
-
       saveUserToLocal(data);
-
       redirectUser(data.usertype);
     } catch (err) {
       console.error('Login Failed:', err);
@@ -41,15 +59,11 @@ const GeneralContextProvider = ({ children }) => {
     }
   };
 
-  // === Register Function ===
   const register = async () => {
     try {
       const response = await axios.post(`${WS}/register`, inputs);
-
       const data = response.data;
-
       saveUserToLocal(data);
-
       redirectUser(data.usertype);
     } catch (err) {
       console.error('Registration Failed:', err);
@@ -57,7 +71,6 @@ const GeneralContextProvider = ({ children }) => {
     }
   };
 
-  // === Logout Function ===
   const logout = () => {
     localStorage.clear();
     setUsername('');
@@ -67,7 +80,6 @@ const GeneralContextProvider = ({ children }) => {
     navigate('/');
   };
 
-  // === Save User to Local Storage ===
   const saveUserToLocal = (data) => {
     localStorage.setItem('userId', data._id);
     localStorage.setItem('username', data.username);
@@ -79,7 +91,6 @@ const GeneralContextProvider = ({ children }) => {
     setUsertype(data.usertype);
   };
 
-  // === Redirect Based on Usertype ===
   const redirectUser = (type) => {
     if (type === 'freelancer') {
       navigate('/freelancer');
@@ -92,7 +103,6 @@ const GeneralContextProvider = ({ children }) => {
     }
   };
 
-  // === Auto Login Effect ===
   useEffect(() => {
     const localUsertype = localStorage.getItem('usertype');
     const localUsername = localStorage.getItem('username');

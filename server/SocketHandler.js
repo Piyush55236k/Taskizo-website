@@ -1,93 +1,95 @@
 import { Chat, Project } from "./Schema.js";
-import {v4 as uuid} from 'uuid';
+import { v4 as uuid } from "uuid";
 
-const SocketHandler = (socket) =>{
-
-    socket.on("join-chat-room", async({projectId, freelancerId})=>{
-        const project = await Project.findById(projectId);
-
-        if(project.freelancerId === freelancerId){
-
-          await socket.join(projectId);
-  
-          console.log(socket.rooms);
-          
-  
-          socket.broadcast.to(projectId).emit("user-joined-room");
-          
-          const chats = await Chat.findById(projectId);
-  
-          if(!chats){
-              const newChat = new Chat({
-                  _id: projectId,
-                  messages: []
-              })
-  
-              await newChat.save();
-          }
-  
-          await socket.emit('messages-updated', {chats});
-        }
-    })
-
-
-    socket.on("join-chat-room-client", async({projectId})=>{
+const SocketHandler = (socket) => {
+  // 👨‍💻 Freelancer joining the chat room
+  socket.on("join-chat-room", async ({ projectId, freelancerId }) => {
+    try {
       const project = await Project.findById(projectId);
-
-      if(project.status === "Assigned" || project.status === "Completed"){
-
-        await socket.join(projectId);
-
-        console.log(socket.rooms);
-        
-
+      if (project?.freelancerId?.toString() === freelancerId) {
+        socket.join(projectId);
+        console.log(`👨‍💻 Freelancer joined room: ${projectId}`);
         socket.broadcast.to(projectId).emit("user-joined-room");
-        
-        const chats = await Chat.findById(projectId);
 
-        if(!chats){
-            const newChat = new Chat({
-                _id: projectId,
-                messages: []
-            })
-
-            await newChat.save();
+        let chats = await Chat.findById(projectId);
+        if (!chats) {
+          chats = new Chat({
+            _id: projectId,
+            messages: [],
+          });
+          await chats.save();
         }
 
-        await socket.emit('messages-updated', {chats});
+        socket.emit("messages-updated", { chats });
       }
-  })
+    } catch (err) {
+      console.error("❌ Error in join-chat-room:", err.message);
+    }
+  });
 
-    socket.on('update-messages', async ({ projectId }) => {
-        try {
-          const chat = await Chat.findOne({ projectId});
-          console.log('updating messages');
-          socket.emit('messages-updated', { chat });
-        } catch (error) {
-          console.error('Error updating messages:', error);
+  // 👨‍💼 Client joining the chat room
+  socket.on("join-chat-room-client", async ({ projectId }) => {
+    try {
+      const project = await Project.findById(projectId);
+      if (["Assigned", "Completed"].includes(project?.status)) {
+        socket.join(projectId);
+        console.log(`👨‍💼 Client joined room: ${projectId}`);
+        socket.broadcast.to(projectId).emit("user-joined-room");
+
+        let chats = await Chat.findById(projectId);
+        if (!chats) {
+          chats = new Chat({
+            _id: projectId,
+            messages: [],
+          });
+          await chats.save();
         }
-    });
 
+        socket.emit("messages-updated", { chats });
+      }
+    } catch (err) {
+      console.error("❌ Error in join-chat-room-client:", err.message);
+    }
+  });
 
-    socket.on('new-message', async ({ projectId, senderId, message, time}) => {
-        try {
-          await Chat.findOneAndUpdate(
-            { _id: projectId },
-            { $addToSet: { messages: { id: uuid(), text: message, senderId, time } } },
-            { new: true }
-          );
-      
-          const chat = await Chat.findOne({ _id: projectId });
-          console.log(chat);
-          socket.emit('messages-updated', { chat });
-          socket.broadcast.to(projectId).emit('message-from-user');
-        } catch (error) {
-          console.error('Error adding new message:', error);
-        }
-      });
+  // 🔁 Update messages in real-time
+  socket.on("update-messages", async ({ projectId }) => {
+    try {
+      const chat = await Chat.findById(projectId);
+      console.log("🔁 Updating messages for:", projectId);
+      socket.emit("messages-updated", { chat });
+    } catch (error) {
+      console.error("❌ Error updating messages:", error.message);
+    }
+  });
 
+  // 📨 Handle new message
+  socket.on("new-message", async ({ projectId, senderId, message, time }) => {
+    try {
+      await Chat.findByIdAndUpdate(
+        projectId,
+        {
+          $push: {
+            messages: {
+              id: uuid(),
+              text: message,
+              senderId,
+              time,
+            },
+          },
+        },
+        { new: true }
+      );
 
+      const chat = await Chat.findById(projectId);
+      console.log("📨 New message added to:", projectId);
 
-}
+      socket.emit("messages-updated", { chat });
+      socket.broadcast.to(projectId).emit("message-from-user");
+    } catch (error) {
+      console.error("❌ Error adding new message:", error.message);
+    }
+  });
+};
 
 export default SocketHandler;
