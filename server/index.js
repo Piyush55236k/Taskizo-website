@@ -104,21 +104,36 @@ mongoose.connect(process.env.MONGO_URI, {
       }
     });
 
-    app.post('/update-freelancer', async (req, res) => {
-      const { freelancerId, updateSkills, description } = req.body;
-      try {
-        const freelancer = await Freelancer.findById(freelancerId);
-        const skills = updateSkills.split(',').map(skill => skill.trim());
+   app.post('/update-freelancer', async (req, res) => {
+  const { freelancerId, updateSkills, description } = req.body;
 
-        freelancer.skills = skills;
-        freelancer.description = description;
+  try {
+    console.log("🔧 [Update Request] Body:", req.body);
 
-        await freelancer.save();
-        res.status(200).json(freelancer);
-      } catch (err) {
-        res.status(500).json({ error: err.message });
-      }
-    });
+    const freelancer = await Freelancer.findById(freelancerId);
+
+    if (!freelancer) {
+      return res.status(404).json({ error: 'Freelancer not found' });
+    }
+
+    // Smart check: array or comma-separated string
+    const skillsArray = Array.isArray(updateSkills)
+      ? updateSkills
+      : updateSkills.split(',').map(skill => skill.trim());
+
+    freelancer.skills = skillsArray;
+    freelancer.description = description;
+
+    await freelancer.save();
+
+    console.log("✅ Freelancer updated:", freelancer);
+    res.status(200).json(freelancer);
+
+  } catch (err) {
+    console.error("❌ Error in /update-freelancer:", err);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
 
     // ======================== PROJECT ========================
     app.get('/fetch-project/:id', async (req, res) => {
