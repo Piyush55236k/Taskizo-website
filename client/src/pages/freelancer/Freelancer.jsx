@@ -42,7 +42,7 @@ const Freelancer = () => {
   }
 
   const updateUserData = async() =>{
-    axios.post(`http://localhost:6001/update-freelancer`, {freelancerId, updateSkills: updateSkills, description: updateDescription}).then(
+    axios.post(`${process.env.REACT_APP_API_URL}/update-freelancer`, {freelancerId, updateSkills: updateSkills, description: updateDescription}).then(
         (response)=>{
           fetchUserData();
           alert("User data updated")
@@ -58,7 +58,7 @@ const Freelancer = () => {
   },[])
 
   const fetchApplications = async() =>{
-    await axios.get("http://localhost:6001/fetch-applications").then(
+    await axios.get(`${process.env.REACT_APP_API_URL}/fetch-applications`).then(
       (response)=>{
         setApplicationsCount(response.data.filter((application)=> application.freelancerId === localStorage.getItem('userId')));
         console.log(response.data);
