@@ -1,130 +1,152 @@
-import mongoose, { Schema, mongo } from "mongoose";
+import mongoose from "mongoose";
 
+// ===================== USER SCHEMA =====================
 const userSchema = mongoose.Schema({
-    username: {
-        type: String,
-        require: true
-    },
-    email: {
-        type: String,
-        require: true,
-        unique: true
-    },
-    password: {
-        type: String,
-        require: true
-    },
-    usertype:{
-        type: String,
-        require: true
-    }
-})
+  username: {
+    type: String,
+    required: true
+  },
+  email: {
+    type: String,
+    required: true,
+    unique: true
+  },
+  password: {
+    type: String,
+    required: true
+  },
+  usertype: {
+    type: String,
+    required: true
+  }
+});
 
+// ===================== FREELANCER SCHEMA =====================
 const freelancerSchema = mongoose.Schema({
-    userId: String,
-    skills: {
-        type: Array,
-        default: []
-    },
-    description: {
-        type: String,
-        default: ""
-    },
-    currentProjects: {
-        type: Array,
-        default: []
-    },
-    completedProjects: {
-        type: Array,
-        default: []
-    },
-    applications: {
-        type: Array,
-        default: []
-    },
-    funds: {
-        type: Number,
-        default: 0
-    },
-})
+  userId: {
+    type: mongoose.Schema.Types.ObjectId,
+    required: true,
+    ref: "users"
+  },
+  skills: {
+    type: [String],
+    default: []
+  },
+  description: {
+    type: String,
+    default: ""
+  },
+  currentProjects: {
+    type: [mongoose.Schema.Types.ObjectId],
+    default: []
+  },
+  completedProjects: {
+    type: [mongoose.Schema.Types.ObjectId],
+    default: []
+  },
+  applications: {
+    type: [mongoose.Schema.Types.ObjectId],
+    default: []
+  },
+  funds: {
+    type: Number,
+    default: 0
+  }
+});
 
-
+// ===================== PROJECT SCHEMA =====================
 const projectSchema = mongoose.Schema({
-    clientId: String,
-    clientName: String,
-    clientEmail: String,
-    title: String,
-    description: String,
-    budget: Number,
-    skills: Array,
-    bids: Array,
-    bidAmounts: Array,
-    postedDate: String,
-    status: {
-        type: String,
-        default: "Available"
-    },
-    freelancerId: String,
-    freelancerName: String,
-    deadline: String,
-    submission: {
-        type: Boolean,
-        default: false
-    },
-    submissionAccepted: {
-        type: Boolean,
-        default: false
-    },
-    projectLink: {
-        type: String,
-        default: ""
-    },
-    manulaLink: {
-        type: String,
-        default: ""
-    },
-    submissionDescription: {
-        type: String,
-        default: ""
-    },
-})
+  clientId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "users"
+  },
+  clientName: String,
+  clientEmail: String,
+  title: String,
+  description: String,
+  budget: Number,
+  skills: [String],
+  bids: [mongoose.Schema.Types.ObjectId],
+  bidAmounts: [Number],
+  postedDate: String,
+  status: {
+    type: String,
+    default: "Available"
+  },
+  freelancerId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "users"
+  },
+  freelancerName: String,
+  deadline: String,
+  submission: {
+    type: Boolean,
+    default: false
+  },
+  submissionAccepted: {
+    type: Boolean,
+    default: false
+  },
+  projectLink: {
+    type: String,
+    default: ""
+  },
+  manualLink: {
+    type: String,
+    default: ""
+  },
+  submissionDescription: {
+    type: String,
+    default: ""
+  }
+});
 
-
+// ===================== APPLICATION SCHEMA =====================
 const applicationSchema = mongoose.Schema({
+  projectId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "projects"
+  },
+  clientId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "users"
+  },
+  clientName: String,
+  clientEmail: String,
+  freelancerId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "users"
+  },
+  freelancerName: String,
+  freelancerEmail: String,
+  freelancerSkills: [String],
+  title: String,
+  description: String,
+  budget: Number,
+  requiredSkills: [String],
+  proposal: String,
+  bidAmount: Number,
+  estimatedTime: Number,
+  status: {
+    type: String,
+    default: "Pending"
+  }
+});
 
-    projectId: String,
-    clientId: String,
-    clientName: String,
-    clientEmail: String,
-    freelancerId: String,
-    freelancerName: String,
-    freelancerEmail: String,
-    freelancerSkills: Array,
-    title: String,
-    description: String,
-    budget: Number,
-    requiredSkills: Array,
-    proposal: String,
-    bidAmount: Number,
-    estimatedTime: Number,
-    status: {
-        type: String,
-        default: "Pending"
-    }
-})
-
+// ===================== CHAT SCHEMA =====================
 const chatSchema = mongoose.Schema({
-    _id: {
-        type: String,
-        require: true
-    },
-    messages: {
-        type: Array
-    }
-})
+  _id: {
+    type: String,
+    required: true
+  },
+  messages: {
+    type: Array
+  }
+});
 
-export const User = mongoose.model('users', userSchema);
-export const Freelancer = mongoose.model('freelancer', freelancerSchema);
-export const Project = mongoose.model('projects', projectSchema);
-export const Application = mongoose.model('applications', applicationSchema);
-export const Chat = mongoose.model('chats', chatSchema);
+// ===================== EXPORT MODELS =====================
+export const User = mongoose.model("users", userSchema);
+export const Freelancer = mongoose.model("freelancer", freelancerSchema);
+export const Project = mongoose.model("projects", projectSchema);
+export const Application = mongoose.model("applications", applicationSchema);
+export const Chat = mongoose.model("chats", chatSchema);
